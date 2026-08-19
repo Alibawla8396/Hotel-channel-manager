@@ -380,7 +380,7 @@ const rooms=[
 ];
 
 let bookings=[];
-
+bookings = JSON.parse(localStorage.getItem("hotelBookings") || "[]");
 function renderRooms(){
 
  let table=document.getElementById("roomTable");
@@ -576,7 +576,8 @@ function addBooking(){
    guests,
    amount
  });
-
+localStorage.setItem("hotelBookings", JSON.stringify(bookings));
+  
  let selectedRoom=rooms.find(r=>r.number===room);
 
  if(selectedRoom){
