@@ -143,7 +143,69 @@ input,select{
   header{display:block}
   .hotel-name{margin-top:8px}
 }
+/* Booking Calendar - Jio-style layout */
+.booking-calendar {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.booking-calendar table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+}
+
+.booking-calendar th,
+.booking-calendar td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.booking-calendar th {
+    background: #172033;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.booking-calendar th:first-child,
+.booking-calendar td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: white;
+    color: #172033;
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.booking-calendar th:first-child {
+    background: #172033;
+    color: white;
+}
+
+.booking-calendar .available {
+    color: #16834b;
+    font-weight: bold;
+}
+
+.booking-calendar .booked {
+    color: #c62828;
+    background: #ffe5e5;
+    font-weight: bold;
+}
+
+.booking-calendar .blocked {
+    color: #777;
+    background: #f1f1f1;
+    font-weight: bold;
+}
 </style>
+  
+
 </head>
 
 <body>
