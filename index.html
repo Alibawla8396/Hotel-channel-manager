@@ -2,232 +2,1771 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hotel Family Stay - Channel Manager</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f6f9;
-  color:#172033;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f6f9;
+color:#172033;
 }
 
 header{
-  background:#172033;
-  color:white;
-  padding:18px 25px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:20;
+background:#172033;
+color:white;
+padding:18px 25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 header h1{
-  margin:0;
-  font-size:24px;
+margin:0;
+font-size:24px;
 }
 
 .hotel-name{
-  font-size:18px;
+font-size:18px;
 }
 
 .container{
-  padding:20px;
-  max-width:1600px;
-  margin:auto;
+padding:20px;
+max-width:1500px;
+margin:auto;
 }
 
 .cards{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:15px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
 }
 
 .card{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 2px 8px #0001;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px #0001;
 }
 
 .card h3{
-  margin:0 0 10px;
-  font-size:15px;
-  color:#667085;
+margin:0 0 10px;
+font-size:15px;
+color:#667085;
 }
 
-.card .number{
-  font-size:28px;
-  font-weight:bold;
+.number{
+font-size:28px;
+font-weight:bold;
 }
 
 .section{
-  background:white;
-  margin-top:20px;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 2px 8px #0001;
+background:white;
+margin-top:20px;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px #0001;
 }
 
 .section-title{
-  font-size:22px;
-  font-weight:bold;
-  margin-bottom:15px;
+font-size:22px;
+font-weight:bold;
+margin-bottom:15px;
 }
 
 button{
-  border:0;
-  padding:9px 13px;
-  border-radius:7px;
-  cursor:pointer;
-  font-weight:bold;
+border:0;
+padding:9px 13px;
+border-radius:7px;
+cursor:pointer;
+font-weight:bold;
 }
 
 button:hover{
-  opacity:.9;
-}
-
-button:disabled{
-  opacity:.5;
-  cursor:not-allowed;
+opacity:.9;
 }
 
 .view-buttons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-bottom:12px;
+display:flex;
+gap:7px;
+flex-wrap:wrap;
+margin-bottom:12px;
 }
 
 .view-buttons button{
-  background:#e8edf5;
+background:#e8edf5;
 }
 
 .view-buttons button.active{
-  background:#172033;
-  color:white;
+background:#172033;
+color:white;
 }
 
-.calendar-controls{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-bottom:12px;
+.nav-buttons{
+display:flex;
+gap:8px;
+margin-bottom:12px;
 }
 
-.calendar-controls button{
-  background:#e8edf5;
-  color:#172033;
-}
-
-.calendar-controls .today-btn{
-  background:#1769aa;
-  color:white;
-}
-
-.calendar-title{
-  font-weight:bold;
-  font-size:16px;
-  margin-left:5px;
+.nav-buttons button{
+background:#172033;
+color:white;
 }
 
 table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:15px;
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
 }
 
-th,
-td{
-  border:1px solid #ddd;
-  padding:10px;
-  text-align:center;
+th,td{
+border:1px solid #ddd;
+padding:10px;
+text-align:center;
 }
 
 th{
-  background:#172033;
-  color:white;
+background:#172033;
+color:white;
 }
 
 .available{
-  background:#e8f8ef;
-  color:#16834b;
-  font-weight:bold;
+background:#e8f8ef;
+color:#16834b;
+font-weight:bold;
 }
 
 .booked{
-  background:#ffe8e8;
-  color:#c62828;
-  font-weight:bold;
+background:#ffe8e8;
+color:#c62828;
+font-weight:bold;
 }
 
 .blocked{
-  background:#fff2d8;
-  color:#a56700;
-  font-weight:bold;
-}
-
-.action{
-  background:#d32f2f;
-  color:white;
-}
-
-.edit-btn{
-  background:#1769aa;
-  color:white;
-}
-
-.cancel-btn{
-  background:#d32f2f;
-  color:white;
-}
-
-.block-btn{
-  background:#a56700;
-  color:white;
-}
-
-.unblock-btn{
-  background:#16834b;
-  color:white;
-}
-
-.save-btn{
-  background:#16834b;
-  color:white;
-}
-
-.clear-btn{
-  background:#777;
-  color:white;
-}
-
-.view-btn{
-  background:#667085;
-  color:white;
-}
-
-.small-btn{
-  padding:6px 9px;
-  font-size:12px;
+background:#fff2d8;
+color:#a56700;
+font-weight:bold;
 }
 
 .calendar-wrap{
-  width:100%;
-  overflow-x:auto;
-  border:1px solid #ddd;
-  border-radius:8px;
+width:100%;
+overflow-x:auto;
+border:1px solid #ddd;
 }
 
 .calendar{
-  width:max-content;
-  min-width:
+width:max-content;
+min-width:100%;
+border-collapse:collapse;
+table-layout:fixed;
+}
+
+.calendar th,
+.calendar td{
+border:1px solid #ddd;
+text-align:center;
+padding:7px;
+min-width:125px;
+height:80px;
+}
+
+.calendar th{
+background:#172033;
+color:white;
+position:sticky;
+top:0;
+z-index:5;
+}
+
+.calendar th:first-child,
+.calendar td:first-child{
+position:sticky;
+left:0;
+min-width:150px;
+width:150px;
+z-index:6;
+}
+
+.calendar th:first-child{
+background:#172033;
+color:white;
+}
+
+.calendar td:first-child{
+background:white;
+color:#172033;
+}
+
+.date-head{
+font-size:12px;
+display:block;
+margin-top:5px;
+}
+
+.room-name{
+font-weight:bold;
+font-size:15px;
+}
+
+.room-type{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.cell-actions{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:5px;
+}
+
+.status-btn{
+width:90%;
+padding:7px 3px;
+font-size:11px;
+border-radius:6px;
+}
+
+.available.status-btn{
+background:#d9f4e5;
+color:#16834b;
+}
+
+.booked.status-btn{
+background:#ffdada;
+color:#c62828;
+}
+
+.blocked.status-btn{
+background:#ffe8c2;
+color:#a56700;
+}
+
+.booking-form{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+}
+
+input,select,textarea{
+width:100%;
+padding:11px;
+border:1px solid #ccc;
+border-radius:7px;
+font-family:Arial,sans-serif;
+}
+
+textarea{
+resize:vertical;
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.form-actions{
+display:flex;
+align-items:end;
+gap:8px;
+}
+
+.save-btn{
+background:#16834b;
+color:white;
+}
+
+.clear-btn{
+background:#777;
+color:white;
+}
+
+.edit-btn{
+background:#1769aa;
+color:white;
+}
+
+.cancel-btn{
+background:#d32f2f;
+color:white;
+}
+
+.block-btn{
+background:#a56700;
+color:white;
+}
+
+.unblock-btn{
+background:#16834b;
+color:white;
+}
+
+.small-btn{
+padding:6px 9px;
+font-size:12px;
+}
+
+.summary-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+}
+
+.summary-box{
+background:#f8fafc;
+padding:15px;
+border-radius:8px;
+}
+
+.summary-box strong{
+display:block;
+font-size:22px;
+margin-top:5px;
+}
+
+.notice{
+background:#eef4ff;
+border:1px solid #c8d7ff;
+padding:12px;
+border-radius:8px;
+margin-bottom:15px;
+}
+
+.status-pill{
+display:inline-block;
+padding:5px 8px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+.payment-paid{
+background:#e8f8ef;
+color:#16834b;
+}
+
+.payment-partial{
+background:#fff2d8;
+color:#a56700;
+}
+
+.payment-pending{
+background:#ffe8e8;
+color:#c62828;
+}
+
+/* THREE DOT MENU */
+
+.menu-wrap{
+position:relative;
+display:inline-block;
+}
+
+.menu-btn{
+background:#172033;
+color:white;
+border-radius:50%;
+width:34px;
+height:34px;
+padding:0;
+font-size:20px;
+line-height:30px;
+}
+
+.menu{
+display:none;
+position:absolute;
+right:0;
+top:40px;
+background:white;
+min-width:150px;
+box-shadow:0 5px 18px #0003;
+border-radius:8px;
+z-index:100;
+overflow:hidden;
+border:1px solid #ddd;
+}
+
+.menu.show{
+display:block;
+}
+
+.menu button{
+display:block;
+width:100%;
+text-align:left;
+background:white;
+color:#172033;
+border-radius:0;
+padding:11px 13px;
+}
+
+.menu button:hover{
+background:#f2f4f7;
+}
+
+.menu .danger{
+color:#d32f2f;
+}
+
+.room-action{
+white-space:nowrap;
+}
+
+@media(max-width:1000px){
+
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+.booking-form{
+grid-template-columns:repeat(2,1fr);
+}
+
+.summary-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:700px){
+
+.cards{
+grid-template-columns:1fr 1fr;
+}
+
+.booking-form{
+grid-template-columns:1fr;
+}
+
+.summary-grid{
+grid-template-columns:1fr 1fr;
+}
+
+header{
+display:block;
+}
+
+.hotel-name{
+margin-top:8px;
+}
+
+.container{
+padding:10px;
+}
+
+.section{
+padding:12px;
+}
+
+.section-title{
+font-size:19px;
+}
+
+.calendar th,
+.calendar td{
+min-width:115px;
+}
+
+.calendar th:first-child,
+.calendar td:first-child{
+min-width:125px;
+width:125px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🏨 Hotel Channel Manager</h1>
+<div class="hotel-name">Hotel Family Stay</div>
+</header>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Rooms</h3>
+<div class="number" id="totalRooms">3</div>
+</div>
+
+<div class="card">
+<h3>Available Today</h3>
+<div class="number" id="availableCount">3</div>
+</div>
+
+<div class="card">
+<h3>Booked Today</h3>
+<div class="number" id="bookedCount">0</div>
+</div>
+
+<div class="card">
+<h3>Blocked Today</h3>
+<div class="number" id="blockedCount">0</div>
+</div>
+
+<div class="card">
+<h3>Total Bookings</h3>
+<div class="number" id="totalBookings">0</div>
+</div>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="section">
+
+<div class="section-title">📊 Booking Summary</div>
+
+<div class="summary-grid">
+
+<div class="summary-box">
+Total Bookings
+<strong id="summaryBookings">0</strong>
+</div>
+
+<div class="summary-box">
+Total Revenue
+<strong id="summaryRevenue">₹0</strong>
+</div>
+
+<div class="summary-box">
+Paid
+<strong id="summaryPaid">₹0</strong>
+</div>
+
+<div class="summary-box">
+Pending
+<strong id="summaryPending">₹0</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CALENDAR -->
+
+<div class="section">
+
+<div class="section-title">📅 Booking Calendar</div>
+
+<div class="nav-buttons">
+
+<button onclick="changeCalendar(-1)">
+← Previous
+</button>
+
+<button onclick="goToday()">
+Today
+</button>
+
+<button onclick="changeCalendar(1)">
+Next →
+</button>
+
+</div>
+
+<div class="view-buttons">
+
+<button onclick="showDays(1,this)">
+1 Day
+</button>
+
+<button onclick="showDays(7,this)" class="active">
+7 Days
+</button>
+
+<button onclick="showDays(14,this)">
+14 Days
+</button>
+
+<button onclick="showDays(30,this)">
+30 Days
+</button>
+
+</div>
+
+<div class="calendar-wrap">
+
+<table class="calendar">
+
+<thead id="calendarHead"></thead>
+
+<tbody id="calendarBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- INVENTORY -->
+
+<div class="section">
+
+<div class="section-title">🛏️ Inventory & Rooms</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Room</th>
+<th>Type</th>
+<th>Capacity</th>
+<th>Rate</th>
+<th>Status</th>
+<th>Options</th>
+</tr>
+
+</thead>
+
+<tbody id="roomTable"></tbody>
+
+</table>
+
+</div>
+
+
+<!-- BOOKING FORM -->
+
+<div class="section">
+
+<div class="section-title">
+➕ Add / Edit Booking
+</div>
+
+<div class="notice">
+💡 Amount अभी manually डालें। Automatic guest-wise pricing बाद में जोड़ी जा सकती है।
+</div>
+
+<input type="hidden" id="editingIndex" value="-1">
+
+<div class="booking-form">
+
+<div>
+<label>Guest Name</label>
+<input id="guestName" placeholder="Guest name">
+</div>
+
+<div>
+<label>Mobile Number</label>
+<input id="guestMobile" placeholder="Mobile number">
+</div>
+
+<div>
+<label>Room</label>
+
+<select id="bookingRoom">
+
+<option value="101">Room 101</option>
+<option value="102">Room 102</option>
+<option value="103">Room 103</option>
+
+</select>
+
+</div>
+
+<div>
+<label>Booking Source</label>
+
+<select id="bookingSource">
+
+<option value="Direct">Direct</option>
+<option value="Booking.com">Booking.com</option>
+<option value="Agoda">Agoda</option>
+<option value="MakeMyTrip">MakeMyTrip</option>
+<option value="Goibibo">Goibibo</option>
+<option value="Other">Other</option>
+
+</select>
+
+</div>
+
+<div>
+<label>Check-in</label>
+<input type="date" id="checkin">
+</div>
+
+<div>
+<label>Check-out</label>
+<input type="date" id="checkout">
+</div>
+
+<div>
+<label>Adults</label>
+<input type="number" id="adults" value="1" min="1">
+</div>
+
+<div>
+<label>Children</label>
+<input type="number" id="children" value="0" min="0">
+</div>
+
+<div>
+<label>Amount</label>
+<input type="number" id="amount" placeholder="₹ Amount">
+</div>
+
+<div>
+<label>Payment Status</label>
+
+<select id="paymentStatus">
+
+<option value="Pending">Pending</option>
+<option value="Partial">Partial</option>
+<option value="Paid">Paid</option>
+
+</select>
+
+</div>
+
+<div>
+<label>Notes</label>
+<textarea id="notes" rows="2" placeholder="Optional notes"></textarea>
+</div>
+
+<div class="form-actions">
+
+<button class="save-btn" onclick="saveBooking()">
+Save Booking
+</button>
+
+<button class="clear-btn" onclick="clearForm()">
+Clear
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CURRENT BOOKINGS -->
+
+<div class="section">
+
+<div class="section-title">
+📋 Current Bookings
+</div>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Guest</th>
+<th>Mobile</th>
+<th>Room</th>
+<th>Check-in</th>
+<th>Check-out</th>
+<th>Adults</th>
+<th>Children</th>
+<th>Amount</th>
+<th>Payment</th>
+<th>Source</th>
+<th>Options</th>
+</tr>
+
+</thead>
+
+<tbody id="bookingTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+ROOM DATA
+========================= */
+
+const rooms=[
+
+{
+number:"101",
+type:"Family Room",
+capacity:6,
+rate:3800,
+blocked:false
+},
+
+{
+number:"102",
+type:"Double Bed Non-AC",
+capacity:3,
+rate:3200,
+blocked:false
+},
+
+{
+number:"103",
+type:"Triple Family",
+capacity:4,
+rate:3200,
+blocked:false
+}
+
+];
+
+
+/* =========================
+STORAGE
+========================= */
+
+let bookings=[];
+
+try{
+
+bookings=
+JSON.parse(
+localStorage.getItem("hotelBookings") || "[]"
+);
+
+if(!Array.isArray(bookings)){
+bookings=[];
+}
+
+}catch(e){
+
+bookings=[];
+
+}
+
+
+let savedBlocks=[];
+
+try{
+
+savedBlocks=
+JSON.parse(
+localStorage.getItem("hotelRoomBlocks") || "[]"
+);
+
+if(!Array.isArray(savedBlocks)){
+savedBlocks=[];
+}
+
+}catch(e){
+
+savedBlocks=[];
+
+}
+
+
+/* Restore room blocks */
+
+rooms.forEach(room=>{
+
+if(savedBlocks.includes(room.number)){
+room.blocked=true;
+}
+
+});
+
+
+/* =========================
+CALENDAR STATE
+========================= */
+
+let calendarDays=7;
+let calendarOffset=0;
+
+
+/* =========================
+HELPERS
+========================= */
+
+function saveData(){
+
+localStorage.setItem(
+"hotelBookings",
+JSON.stringify(bookings)
+);
+
+localStorage.setItem(
+"hotelRoomBlocks",
+JSON.stringify(
+rooms
+.filter(r=>r.blocked)
+.map(r=>r.number)
+)
+);
+
+}
+
+
+function getDateKey(date){
+
+let y=date.getFullYear();
+
+let m=
+(date.getMonth()+1)
+.toString()
+.padStart(2,"0");
+
+let d=
+date.getDate()
+.toString()
+.padStart(2,"0");
+
+return `${y}-${m}-${d}`;
+
+}
+
+
+function formatDate(date){
+
+let d=
+date.getDate()
+.toString()
+.padStart(2,"0");
+
+let m=
+(date.getMonth()+1)
+.toString()
+.padStart(2,"0");
+
+let y=date.getFullYear();
+
+return `${d}/${m}/${y}`;
+
+}
+
+
+function formatDateLong(date){
+
+return date.toLocaleDateString(
+"en-IN",
+{
+weekday:"short",
+day:"2-digit",
+month:"short",
+year:"numeric"
+}
+);
+
+}
+
+
+/* =========================
+ROOM STATUS
+========================= */
+
+function hasBookingOnDate(
+roomNumber,
+dateKey,
+ignoreIndex=-1
+){
+
+return bookings.some(
+(b,index)=>{
+
+if(index===ignoreIndex){
+return false;
+}
+
+return(
+b.room===roomNumber &&
+dateKey>=b.checkin &&
+dateKey<b.checkout
+);
+
+}
+);
+
+}
+
+
+function getRoomStatus(
+roomNumber,
+dateKey
+){
+
+let room=
+rooms.find(
+r=>r.number===roomNumber
+);
+
+if(!room){
+return "AVAILABLE";
+}
+
+if(room.blocked){
+return "BLOCKED";
+}
+
+if(
+hasBookingOnDate(
+roomNumber,
+dateKey
+)
+){
+
+return "BOOKED";
+
+}
+
+return "AVAILABLE";
+
+}
+
+
+/* =========================
+DASHBOARD
+========================= */
+
+function updateCounts(){
+
+let today=
+getDateKey(new Date());
+
+let available=0;
+let booked=0;
+let blocked=0;
+
+rooms.forEach(room=>{
+
+let status=
+getRoomStatus(
+room.number,
+today
+);
+
+if(status==="AVAILABLE"){
+available++;
+}
+
+if(status==="BOOKED"){
+booked++;
+}
+
+if(status==="BLOCKED"){
+blocked++;
+}
+
+});
+
+document.getElementById(
+"totalRooms"
+).innerText=rooms.length;
+
+document.getElementById(
+"availableCount"
+).innerText=available;
+
+document.getElementById(
+"bookedCount"
+).innerText=booked;
+
+document.getElementById(
+"blockedCount"
+).innerText=blocked;
+
+document.getElementById(
+"totalBookings"
+).innerText=bookings.length;
+
+}
+
+
+/* =========================
+INVENTORY
+========================= */
+
+function renderRooms(){
+
+let table=
+document.getElementById("roomTable");
+
+table.innerHTML="";
+
+let today=
+getDateKey(new Date());
+
+rooms.forEach(room=>{
+
+let status=
+getRoomStatus(
+room.number,
+today
+);
+
+let cls=
+status==="AVAILABLE"
+?"available"
+:
+status==="BOOKED"
+?"booked"
+:"blocked";
+
+let blockText=
+room.blocked
+?"Unblock Room"
+:"Block Room";
+
+table.innerHTML+=`
+
+<tr>
+
+<td>
+<b>Room ${room.number}</b>
+</td>
+
+<td>
+${room.type}
+</td>
+
+<td>
+${room.capacity}
+</td>
+
+<td>
+₹${room.rate}
+</td>
+
+<td class="${cls}">
+${status}
+</td>
+
+<td class="room-action">
+
+<div class="menu-wrap">
+
+<button
+class="menu-btn"
+onclick="toggleMenu(this)">
+⋮
+</button>
+
+<div class="menu">
+
+<button onclick="quickBook('${room.number}',getDateKey(new Date()));closeMenus();">
+➕ New Booking
+</button>
+
+<button onclick="viewRoom('${room.number}');closeMenus();">
+👁 View Room
+</button>
+
+<button onclick="toggleRoomBlock('${room.number}');closeMenus();">
+${room.blocked ? "🔓 Unblock Room" : "🔒 Block Room"}
+</button>
+
+</div>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+updateCounts();
+
+}
+
+
+/* =========================
+THREE DOT MENU
+========================= */
+
+function toggleMenu(button){
+
+closeMenus();
+
+let menu=
+button.parentElement.querySelector(".menu");
+
+menu.classList.toggle("show");
+
+}
+
+
+function closeMenus(){
+
+document
+.querySelectorAll(".menu.show")
+.forEach(menu=>{
+menu.classList.remove("show");
+});
+
+}
+
+
+document.addEventListener(
+"click",
+function(e){
+
+if(
+!e.target.closest(".menu-wrap")
+){
+
+closeMenus();
+
+}
+
+}
+);
+
+
+/* =========================
+ROOM BLOCK
+========================= */
+
+function toggleRoomBlock(number){
+
+let room=
+rooms.find(
+r=>r.number===number
+);
+
+if(!room){
+return;
+}
+
+if(
+room.blocked
+){
+
+room.blocked=false;
+
+}else{
+
+let today=
+getDateKey(new Date());
+
+if(
+hasBookingOnDate(
+number,
+today
+)
+){
+
+alert(
+"Room is already booked today."
+);
+
+return;
+
+}
+
+room.blocked=true;
+
+}
+
+saveData();
+
+renderAll();
+
+}
+
+
+function viewRoom(number){
+
+let room=
+rooms.find(
+r=>r.number===number
+);
+
+if(!room){
+return;
+}
+
+alert(
+"Room "+room.number+
+"\nType: "+room.type+
+"\nCapacity: "+room.capacity+
+"\nRate: ₹"+room.rate+
+"\nStatus: "+(room.blocked?"BLOCKED":"AVAILABLE")
+);
+
+}
+
+
+/* =========================
+CALENDAR BUTTONS
+========================= */
+
+function showDays(days,button){
+
+calendarDays=days;
+
+calendarOffset=0;
+
+document
+.querySelectorAll(".view-buttons button")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+button.classList.add("active");
+
+renderCalendar();
+
+}
+
+
+function changeCalendar(direction){
+
+calendarOffset+=direction;
+
+renderCalendar();
+
+}
+
+
+function goToday(){
+
+calendarOffset=0;
+
+renderCalendar();
+
+}
+
+
+/* =========================
+CALENDAR
+========================= */
+
+function renderCalendar(){
+
+let head=
+document.getElementById(
+"calendarHead"
+);
+
+let body=
+document.getElementById(
+"calendarBody"
+);
+
+head.innerHTML="";
+
+body.innerHTML="";
+
+
+let start=
+new Date();
+
+start.setHours(0,0,0,0);
+
+start.setDate(
+start.getDate()+
+calendarOffset
+);
+
+
+let dates=[];
+
+for(
+let i=0;
+i<calendarDays;
+i++
+){
+
+let d=
+new Date(start);
+
+d.setDate(
+start.getDate()+i
+);
+
+dates.push(d);
+
+}
+
+
+/* HEADER */
+
+let headerRow=
+"<tr><th>ROOM</th>";
+
+dates.forEach(date=>{
+
+headerRow+=`
+
+<th>
+
+${date.toLocaleDateString(
+"en-IN",
+{weekday:"short"}
+)}
+
+<span class="date-head">
+${date.toLocaleDateString(
+"en-IN",
+{
+day:"2-digit",
+month:"short"
+}
+)}
+</span>
+
+</th>
+
+`;
+
+});
+
+headerRow+="</tr>";
+
+head.innerHTML=headerRow;
+
+
+/* ROOM ROWS */
+
+rooms.forEach(room=>{
+
+let row=`
+
+<tr>
+
+<td>
+
+<div class="room-name">
+Room ${room.number}
+</div>
+
+<div class="room-type">
+${room.type}
+</div>
+
+<div class="menu-wrap" style="margin-top:6px">
+
+<button
+class="menu-btn"
+onclick="toggleMenu(this)">
+⋮
+</button>
+
+<div class="menu">
+
+<button onclick="quickBook('${room.number}',getDateKey(new Date()));closeMenus();">
+➕ Booking
+</button>
+
+<button onclick="viewRoom('${room.number}');closeMenus();">
+👁 View
+</button>
+
+<button onclick="toggleRoomBlock('${room.number}');closeMenus();">
+${room.blocked?"🔓 Unblock":"🔒 Block"}
+</button>
+
+</div>
+
+</div>
+
+</td>
+
+`;
+
+
+dates.forEach(date=>{
+
+let key=
+getDateKey(date);
+
+let status=
+getRoomStatus(
+room.number,
+key
+);
+
+
+if(status==="BOOKED"){
+
+let booking=
+bookings.find(
+b=>
+b.room===room.number &&
+key>=b.checkin &&
+key<b.checkout
+);
+
+let index=
+bookings.indexOf(booking);
+
+row+=`
+
+<td class="booked">
+
+<div class="cell-actions">
+
+<button
+class="status-btn booked"
+onclick="viewBooking(${index})">
+
+BOOKED
+
+</button>
+
+<small>
+${booking ? booking.guest : ""}
+</small>
+
+</div>
+
+</td>
+
+`;
+
+}
+else if(status==="BLOCKED"){
+
+row+=`
+
+<td class="blocked">
+
+<div class="cell-actions">
+
+<button
+class="status-btn blocked"
+onclick="toggleRoomBlock('${room.number}')">
+
+BLOCKED
+
+</button>
+
+</div>
+
+</td>
+
+`;
+
+}
+else{
+
+row+=`
+
+<td class="available">
+
+<div class="cell-actions">
+
+<button
+class="status-btn available"
+onclick="quickBook('${room.number}','${key}')">
+
+BOOK
+
+</button>
+
+</div>
+
+</td>
+
+`;
+
+}
+
+});
+
+row+="</tr>";
+
+body.innerHTML+=row;
+
+});
+
+}
+
+
+/* =========================
+QUICK BOOK
+========================= */
+
+function quickBook(
+room,
+date
+){
+
+document.getElementById(
+"bookingRoom"
+).value=room;
+
+document.getElementById(
+"checkin"
+).value=date;
+
+let next=
+new Date(date);
+
+next.setDate(
+next.getDate()+1
+);
+
+document.getElementById(
+"checkout"
+).value=
+getDateKey(next);
+
+document.getElementById(
+"guestName"
+).focus();
+
+window.scrollTo({
+top:
+document.getElementById(
+"guestName"
+).getBoundingClientRect().top+
+window.scrollY-
+100,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================
+SAVE BOOKING
+========================= */
+
+function saveBooking(){
+
+let guest=
+document.getElementById(
+"guestName"
+).value.trim();
+
+let mobile=
+document.getElementById(
+"guestMobile"
+).value.trim();
+
+let room=
+document.getElementById(
+"bookingRoom"
+).value;
+
+let checkin=
+document.getElementById(
+"checkin"
+).value;
+
+let checkout=
+document.getElementById(
+"checkout"
+).value;
+
+let adults=
+Number(
+document.getElementById(
+"adults"
+).value || 1
+);
+
+let children=
+Number(
+document.getElementById(
+"children"
+).value || 0
+);
+
+let amount=
+Number(
+document.getElementById(
+"amount"
+).value || 0
+);
+
+let paymentStatus=
+document.getElementById(
+"paymentStatus"
+).value;
+
+let source=
+document.getElementById(
+"bookingSource"
+).value;
+
+let notes=
+document.getElementById(
+"notes"
+).value.trim();
+
+let editingIndex=
+Number(
+document.getElementById(
+"editingIndex"
+).value
+);
+
+
+if(!guest){
+
+alert(
+"Please enter guest name."
+);
+
+return;
+
+}
+
+if(!checkin || !checkout){
+
+alert(
+"Please select Check-in and Check-out."
+);
+
+return;
+
+}
+
+if(checkout<=checkin){
+
+alert(
+"Check-out must be after Check-in."
+);
+
+return;
+
+}
+
+let roomData=
+rooms.find(
+r=>r.number===room
+);
+
+if(!roomData){
+
+alert(
+"Invalid room."
+);
+
+return;
+
+}
+
+if(
+adults<1
+){
+
+alert(
+"At least 1 adult is requ
