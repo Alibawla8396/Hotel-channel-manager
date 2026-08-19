@@ -381,6 +381,12 @@ const rooms=[
 
 let bookings=[];
 bookings = JSON.parse(localStorage.getItem("hotelBookings") || "[]");
+  bookings.forEach(b => {
+    let room = rooms.find(r => r.number === b.room);
+    if (room) {
+        room.status = "BOOKED";
+    }
+});
 function renderRooms(){
 
  let table=document.getElementById("roomTable");
