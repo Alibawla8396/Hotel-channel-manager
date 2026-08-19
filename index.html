@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Channel Manager</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f9;
+  color:#172033;
+}
+header{
+  background:#172033;
+  color:white;
+  padding:18px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{margin:0;font-size:22px}
+.container{padding:25px;max-width:1200px;margin:auto}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 8px #0001;
+}
+.card h3{margin:0 0 10px;color:#667085;font-size:14px}
+.card strong{font-size:28px}
+.section{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 2px 8px #0001;
+}
+button{
+  border:0;
+  padding:10px 15px;
+  border-radius:7px;
+  cursor:pointer;
+  background:#1769e0;
+  color:white;
+  margin:3px;
+}
+button.block{background:#d92d20}
+button.open{background:#079455}
+input,select{
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  margin:4px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+.status{
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+.available{background:#dcfae6;color:#067647}
+.blocked{background:#fee4e2;color:#b42318}
+@media(max-width:800px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🏨 Hotel Channel Manager</h1>
+  <span>Hotel Family Stay</span>
+</header>
+
+<div class="container">
+
+<div class="cards">
+  <div class="card">
+    <h3>Total Rooms</h3>
+    <strong id="totalRooms">3</strong>
+  </div>
+
+  <div class="card">
+    <h3>Available</h3>
+    <strong id="availableRooms">3</strong>
+  </div>
+
+  <div class="card">
+    <h3>Blocked</h3>
+    <strong id="blockedRooms">0</strong>
+  </div>
+
+  <div class="card">
+    <h3>Today's Rate</h3>
+    <strong>₹<span id="todayRate">0</span></strong>
+  </div>
+</div>
+
+<div class="section">
+  <h2>📅 Inventory & Rooms</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Room</th>
+        <th>Type</th>
+        <th>Capacity</th>
+        <th>Rate</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="roomTable"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>💰 Set Hotel Rate</h2>
+
+  <input type="number" id="newRate" placeholder="Enter rate">
+
+  <button onclick="setRate()">Set Rate</button>
+
+  <p>
+    Current rate:
+    <strong>₹<span id="currentRate">0</span></strong>
+  </p>
+</div>
+
+<div class="section">
+  <h2>📥 Add Booking</h2>
+
+  <input id="guestName" placeholder="Guest name">
+
+  <select id="bookingRoom">
+    <option value="1">Room 101</option>
+    <option value="2">Room 102</option>
+    <option value="3">Room 103</option>
+  </select>
+
+  <button onclick="addBooking()">Add Booking</button>
+
+  <h3>Bookings</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Guest</th>
+        <th>Room</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+
+    <tbody id="bookingTable"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>🔗 Channel Manager</h2>
+
+  <p>OTA Connections</p>
+
+  <button>Booking.com</button>
+  <button>Goibibo</button>
+  <button>MakeMyTrip</button>
+  <button>Agoda</button>
+  <button>Expedia</button>
+
+  <p>
+    <strong>Connection status:</strong>
+    Not connected
+  </p>
+
+  <small>
+    OTA API connections will be added in the next development stage.
+  </small>
+</div>
+
+</div>
+
+<script>
+
+let rooms = [
+  {
+    id:1,
+    name:"Room 101",
+    type:"Family Room",
+    capacity:6,
+    rate:3800,
+    blocked:false
+  },
+  {
+    id:2,
+    name:"Room 102",
+    type:"Double Bed Non-AC",
+    capacity:3,
+    rate:3200,
+    blocked:false
+  },
+  {
+    id:3,
+    name:"Room 103",
+    type:"Triple Family",
+    capacity:4,
+    rate:3200,
+    blocked:false
+  }
+];
+
+let bookings = [];
+
+function saveData(){
+  localStorage.setItem("hotelRooms",JSON.stringify(rooms));
+  localStorage.setItem("hotelBookings",JSON.stringify(bookings));
+}
+
+function loadData(){
+
+  let savedRooms=localStorage.getItem("hotelRooms");
+  let savedBookings=localStorage.getItem("hotelBookings");
+
+  if(savedRooms){
+    rooms=JSON.parse(savedRooms);
+  }
+
+  if(savedBookings){
+    bookings=JSON.parse(savedBookings);
+  }
+}
+
+function render(){
+
+  let table=document.getElementById("roomTable");
+
+  table.innerHTML="";
+
+  rooms.forEach(room=>{
+
+    table.innerHTML+=`
+      <tr>
+        <td>${room.name}</td>
+        <td>${room.type}</td>
+        <td>${room.capacity}</td>
+        <td>₹${room.rate}</td>
+
+        <td>
+          <span class="status ${room.blocked?'blocked':'available'}">
+            ${room.blocked?'BLOCKED':'AVAILABLE'}
+          </span>
+        </td>
+
+        <td>
+          <button
+            class="${room.blocked?'open':'block'}"
+            onclick="toggleRoom(${room.id})">
+            ${room.blocked?'Unblock':'Block Room'}
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  let blocked=rooms.filter(r=>r.blocked).length;
+
+  document.getElementById("totalRooms").innerText=rooms.length;
+  document.getElementById("blockedRooms").innerText=blocked;
+  document.getElementById("availableRooms").innerText=rooms.length-blocked;
+
+  document.getElementById("currentRate").innerText=rooms[0].rate;
+  document.getElementById("todayRate").innerText=rooms[0].rate;
+
+  renderBookings();
+}
+
+function toggleRoom(id){
+
+  let room=rooms.find(r=>r.id===id);
+
+  room.blocked=!room.blocked;
+
+  saveData();
+  render();
+}
+
+function setRate(){
+
+  let rate=Number(document.getElementById("newRate").value);
+
+  if(!rate){
+    alert("Please enter a rate");
+    return;
+  }
+
+  rooms.forEach(room=>{
+    room.rate=rate;
+  });
+
+  saveData();
+  render();
+
+  document.getElementById("newRate").value="";
+
+  alert("Rate updated for all rooms!");
+}
+
+function addBooking(){
+
+  let name=document.getElementById("guestName").value;
+  let roomId=Number(document.getElementById("bookingRoom").value);
+
+  if(!name){
+    alert("Enter guest name");
+    return;
+  }
+
+  let room=rooms.find(r=>r.id===roomId);
+
+  room.blocked=true;
+
+  bookings.push({
+    guest:name,
+    room:room.name,
+    date:new Date().toLocaleDateString()
+  });
+
+  saveData();
+  render();
+
+  document.getElementById("guestName").value="";
+
+  alert("Booking added and room blocked!");
+}
+
+function renderBookings(){
+
+  let table=document.getElementById("bookingTable");
+
+  table.innerHTML="";
+
+  bookings.forEach(booking=>{
+
+    table.innerHTML+=`
+      <tr>
+        <td>${booking.guest}</td>
+        <td>${booking.room}</td>
+        <td>${booking.date}</td>
+      </tr>
+    `;
+  });
+}
+
+loadData();
+render();
+
+</script>
+
+</body>
+</html>
