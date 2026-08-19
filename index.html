@@ -1,422 +1,233 @@
-let checkout=
-    document.getElementById("checkout").value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-let adults=
-    Number(document.getElementById("adults").value || 1);
+<title>Hotel Family Stay - Channel Manager</title>
 
-let children=
-    Number(document.getElementById("children").value || 0);
-
-let amount=
-    Number(document.getElementById("amount").value || 0);
-
-let paymentStatus=
-    document.getElementById("paymentStatus").value;
-
-let source=
-    document.getElementById("bookingSource").value;
-
-let notes=
-    document.getElementById("notes").value.trim();
-
-let editingIndex=
-    Number(document.getElementById("editingIndex").value);
-
-if(!guest){
-    alert("Please enter guest name.");
-    return;
+<style>
+*{
+  box-sizing:border-box;
 }
 
-if(!checkin || !checkout){
-    alert("Please select Check-in and Check-out.");
-    return;
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f9;
+  color:#172033;
 }
 
-if(checkout <= checkin){
-    alert("Check-out must be after Check-in.");
-    return;
+header{
+  background:#172033;
+  color:white;
+  padding:18px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
-let roomData=
-    rooms.find(r=>r.number===room);
-
-if(!roomData){
-    alert("Invalid room.");
-    return;
+header h1{
+  margin:0;
+  font-size:24px;
 }
 
-if(adults < 1){
-    alert("At least 1 adult is required.");
-    return;
+.hotel-name{
+  font-size:18px;
 }
 
-if(adults + children > roomData.capacity){
-    alert("Guest count exceeds room capacity.");
-    return;
+.container{
+  padding:20px;
+  max-width:1600px;
+  margin:auto;
 }
 
-/* Double booking protection */
-let conflict=
-    bookings.some((b,index)=>{
-
-        if(index===editingIndex){
-            return false;
-        }
-
-        if(b.room!==room){
-            return false;
-        }
-
-        return (
-            checkin < b.checkout &&
-            checkout > b.checkin
-        );
-    });
-
-if(conflict){
-    alert("This room is already booked for these dates.");
-    return;
+.cards{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:15px;
 }
 
-if(roomData.blocked){
-    alert("This room is blocked.");
-    return;
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 8px #0001;
 }
 
-let booking={
-    id:
-      editingIndex>=0 && bookings[editingIndex]
-      ? bookings[editingIndex].id
-      : Date.now().toString(),
-
-    guest,
-    mobile,
-    room,
-    checkin,
-    checkout,
-    adults,
-    children,
-    guests:adults+children,
-    amount,
-    paymentStatus,
-    source,
-    notes
-};
-
-if(editingIndex>=0){
-
-    bookings[editingIndex]=booking;
-
-    alert("Booking updated successfully.");
-
-}else{
-
-    bookings.push(booking);
-
-    alert("Booking saved successfully.");
-
+.card h3{
+  margin:0 0 10px;
+  font-size:15px;
+  color:#667085;
 }
 
-localStorage.setItem(
-    "hotelBookings",
-    JSON.stringify(bookings)
-);
-
-clearForm();
-
-renderAll();
-
+.card .number{
+  font-size:28px;
+  font-weight:bold;
 }
 
-
-/* =========================
-   EDIT BOOKING
-========================= */
-
-function editBooking(index){
-
-    let b=bookings[index];
-
-    if(!b){
-        return;
-    }
-
-    document.getElementById("editingIndex").value=index;
-
-    document.getElementById("guestName").value=b.guest || "";
-
-    document.getElementById("guestMobile").value=b.mobile || "";
-
-    document.getElementById("bookingRoom").value=b.room;
-
-    document.getElementById("checkin").value=b.checkin;
-
-    document.getElementById("checkout").value=b.checkout;
-
-    document.getElementById("adults").value=b.adults || b.guests || 1;
-
-    document.getElementById("children").value=b.children || 0;
-
-    document.getElementById("amount").value=b.amount || "";
-
-    document.getElementById("paymentStatus").value=b.paymentStatus || "Pending";
-
-    document.getElementById("bookingSource").value=b.source || "Direct";
-
-    document.getElementById("notes").value=b.notes || "";
-
-    window.scrollTo({
-        top:document.getElementById("guestName").getBoundingClientRect().top + window.scrollY - 100,
-        behavior:"smooth"
-    });
-
+.section{
+  background:white;
+  margin-top:20px;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 8px #0001;
 }
 
-
-/* =========================
-   CANCEL BOOKING
-========================= */
-
-function cancelBooking(index){
-
-    let b=bookings[index];
-
-    if(!b){
-        return;
-    }
-
-    if(!confirm("Cancel booking for "+b.guest+"?")){
-        return;
-    }
-
-    bookings.splice(index,1);
-
-    localStorage.setItem(
-        "hotelBookings",
-        JSON.stringify(bookings)
-    );
-
-    renderAll();
-
+.section-title{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:15px;
 }
 
-
-/* =========================
-   VIEW BOOKING
-========================= */
-
-function viewBooking(index){
-
-    let b=bookings[index];
-
-    if(!b){
-        return;
-    }
-
-    alert(
-`Guest: ${b.guest}
-Mobile: ${b.mobile || "-"}
-Room: ${b.room}
-Check-in: ${b.checkin}
-Check-out: ${b.checkout}
-Adults: ${b.adults || b.guests || 0}
-Children: ${b.children || 0}
-Amount: ₹${b.amount || 0}
-Payment: ${b.paymentStatus || "Pending"}
-Source: ${b.source || "Direct"}
-Notes: ${b.notes || "-"}`
-    );
-
+button{
+  border:0;
+  padding:9px 13px;
+  border-radius:7px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-
-/* =========================
-   CURRENT BOOKINGS
-========================= */
-
-function renderBookings(){
-
-    let table=
-        document.getElementById("bookingTable");
-
-    table.innerHTML="";
-
-    if(bookings.length===0){
-
-        table.innerHTML=`
-        <tr>
-            <td colspan="11">
-                No bookings found.
-            </td>
-        </tr>`;
-
-        return;
-    }
-
-    bookings.forEach((b,index)=>{
-
-        let paymentClass=
-            b.paymentStatus==="Paid"
-            ? "payment-paid"
-            : b.paymentStatus==="Partial"
-            ? "payment-partial"
-            : "payment-pending";
-
-        table.innerHTML+=`
-
-        <tr>
-
-            <td>${b.guest}</td>
-
-            <td>${b.mobile || "-"}</td>
-
-            <td>Room ${b.room}</td>
-
-            <td>${b.checkin}</td>
-
-            <td>${b.checkout}</td>
-
-            <td>${b.adults || b.guests || 0}</td>
-
-            <td>${b.children || 0}</td>
-
-            <td>₹${b.amount || 0}</td>
-
-            <td>
-                <span class="status-pill ${paymentClass}">
-                    ${b.paymentStatus || "Pending"}
-                </span>
-            </td>
-
-            <td>${b.source || "Direct"}</td>
-
-            <td>
-
-                <button
-                    class="edit-btn small-btn"
-                    onclick="editBooking(${index})">
-                    Edit
-                </button>
-
-                <button
-                    class="cancel-btn small-btn"
-                    onclick="cancelBooking(${index})">
-                    Cancel
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
+button:hover{
+  opacity:.9;
 }
 
-
-/* =========================
-   SUMMARY
-========================= */
-
-function renderSummary(){
-
-    let revenue=
-        bookings.reduce(
-            (sum,b)=>sum+Number(b.amount || 0),
-            0
-        );
-
-    let paid=
-        bookings
-        .filter(b=>b.paymentStatus==="Paid")
-        .reduce(
-            (sum,b)=>sum+Number(b.amount || 0),
-            0
-        );
-
-    let pending=
-        bookings
-        .filter(b=>b.paymentStatus!=="Paid")
-        .reduce(
-            (sum,b)=>sum+Number(b.amount || 0),
-            0
-        );
-
-    document.getElementById("summaryBookings").innerText=
-        bookings.length;
-
-    document.getElementById("summaryRevenue").innerText=
-        "₹"+revenue;
-
-    document.getElementById("summaryPaid").innerText=
-        "₹"+paid;
-
-    document.getElementById("summaryPending").innerText=
-        "₹"+pending;
-
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
 }
 
-
-/* =========================
-   CLEAR FORM
-========================= */
-
-function clearForm(){
-
-    document.getElementById("editingIndex").value="-1";
-
-    document.getElementById("guestName").value="";
-
-    document.getElementById("guestMobile").value="";
-
-    document.getElementById("bookingRoom").value="101";
-
-    document.getElementById("checkin").value="";
-
-    document.getElementById("checkout").value="";
-
-    document.getElementById("adults").value="1";
-
-    document.getElementById("children").value="0";
-
-    document.getElementById("amount").value="";
-
-    document.getElementById("paymentStatus").value="Pending";
-
-    document.getElementById("bookingSource").value="Direct";
-
-    document.getElementById("notes").value="";
-
+.view-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:12px;
 }
 
-
-/* =========================
-   RENDER ALL
-========================= */
-
-function renderAll(){
-
-    renderRooms();
-
-    renderCalendar(7);
-
-    renderBookings();
-
-    renderSummary();
-
-    updateCounts();
-
+.view-buttons button{
+  background:#e8edf5;
 }
 
+.view-buttons button.active{
+  background:#172033;
+  color:white;
+}
 
-/* =========================
-   START
-========================= */
+.calendar-controls{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
 
-renderAll();
+.calendar-controls button{
+  background:#e8edf5;
+  color:#172033;
+}
 
-</script>
+.calendar-controls .today-btn{
+  background:#1769aa;
+  color:white;
+}
 
-</body>
-</html>
+.calendar-title{
+  font-weight:bold;
+  font-size:16px;
+  margin-left:5px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+th,
+td{
+  border:1px solid #ddd;
+  padding:10px;
+  text-align:center;
+}
+
+th{
+  background:#172033;
+  color:white;
+}
+
+.available{
+  background:#e8f8ef;
+  color:#16834b;
+  font-weight:bold;
+}
+
+.booked{
+  background:#ffe8e8;
+  color:#c62828;
+  font-weight:bold;
+}
+
+.blocked{
+  background:#fff2d8;
+  color:#a56700;
+  font-weight:bold;
+}
+
+.action{
+  background:#d32f2f;
+  color:white;
+}
+
+.edit-btn{
+  background:#1769aa;
+  color:white;
+}
+
+.cancel-btn{
+  background:#d32f2f;
+  color:white;
+}
+
+.block-btn{
+  background:#a56700;
+  color:white;
+}
+
+.unblock-btn{
+  background:#16834b;
+  color:white;
+}
+
+.save-btn{
+  background:#16834b;
+  color:white;
+}
+
+.clear-btn{
+  background:#777;
+  color:white;
+}
+
+.view-btn{
+  background:#667085;
+  color:white;
+}
+
+.small-btn{
+  padding:6px 9px;
+  font-size:12px;
+}
+
+.calendar-wrap{
+  width:100%;
+  overflow-x:auto;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+.calendar{
+  width:max-content;
+  min-width:
