@@ -143,65 +143,93 @@ input,select{
   header{display:block}
   .hotel-name{margin-top:8px}
 }
-/* Booking Calendar - Jio-style layout */
-.booking-calendar {
-    overflow-x: auto;
+/* Jio-style Booking Calendar */
+.calendar-wrap {
     width: 100%;
+    overflow-x: auto;
 }
 
-.booking-calendar table {
+.calendar {
     width: max-content;
     min-width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
-.booking-calendar th,
-.booking-calendar td {
+.calendar th,
+.calendar td {
     border: 1px solid #ddd;
-    padding: 10px;
     text-align: center;
+    padding: 8px;
     min-width: 120px;
+    height: 65px;
 }
 
-.booking-calendar th {
+.calendar th {
     background: #172033;
     color: white;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    font-weight: bold;
 }
 
-.booking-calendar th:first-child,
-.booking-calendar td:first-child {
+.calendar th:first-child,
+.calendar td:first-child {
     position: sticky;
     left: 0;
     z-index: 3;
+    min-width: 130px;
+    width: 130px;
     background: white;
     color: #172033;
     font-weight: bold;
-    min-width: 120px;
 }
 
-.booking-calendar th:first-child {
+.calendar th:first-child {
     background: #172033;
     color: white;
+    z-index: 4;
 }
 
-.booking-calendar .available {
+.calendar .date-head {
+    font-size: 12px;
+    display: block;
+    margin-top: 3px;
+}
+
+.calendar .status-btn {
+    width: 90%;
+    padding: 8px 4px;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+.calendar td.available {
+    background: #e8f8ef;
     color: #16834b;
-    font-weight: bold;
 }
 
-.booking-calendar .booked {
+.calendar td.booked {
+    background: #ffe8e8;
     color: #c62828;
-    background: #ffe5e5;
-    font-weight: bold;
 }
 
-.booking-calendar .blocked {
-    color: #777;
-    background: #f1f1f1;
-    font-weight: bold;
+.calendar td.blocked {
+    background: #fff2d8;
+    color: #a56700;
+}
+
+.calendar button.available {
+    background: #e8f8ef;
+    color: #16834b;
+}
+
+.calendar button.booked {
+    background: #ffe8e8;
+    color: #c62828;
+}
+
+.calendar button.blocked {
+    background: #fff2d8;
+    color: #a56700;
 }
 </style>
   
