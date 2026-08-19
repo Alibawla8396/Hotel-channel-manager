@@ -614,10 +614,31 @@ function renderBookings(){
      <td>${b.checkout}</td>
      <td>${b.guests}</td>
      <td>₹${b.amount || 0}</td>
+     <td>
+  <button onclick="cancelBooking(${bookings.indexOf(b)})">Cancel</button>
+</td>
    </tr>`;
  });
 }
+function cancelBooking(index){
+  if(confirm("Are you sure you want to cancel this booking?")){
+    let booking = bookings[index];
 
+    let selectedRoom = rooms.find(r => r.number === booking.room);
+
+    if(selectedRoom){
+      selectedRoom.status = "AVAILABLE";
+    }
+
+    bookings.splice(index, 1);
+
+    localStorage.setItem("hotelBookings", JSON.stringify(bookings));
+
+    renderRooms();
+    renderBookings();
+    renderCalendar();
+  }
+}
 function clearForm(){
 
  document.getElementById("guestName").value="";
